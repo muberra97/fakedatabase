@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  </head>
+</html>
+<body>
+
+    <div class = 'container'>
+        <h2>SEARCH</h2>
+        <form  method="get" action=" ">
+          <div class = "form-group">
+              <div class = "col-lg-5">
+          <input type="text" name='search' class="form-control" placeholder="Search..." value="{{ search }}">
+              </div>
+              <label class="col-lg-2">
+                  <br>
+                  <button type="submit" class="btn btn-danger">Search</button>
+              </label>
+          </div>
+      </form>
+      <br><br>
+      <div>
+          {% if messages %}
+              <ul class = "messages">
+                  {% for k in messages %}
+                  <li style="color: red">{{ k }}</li>
+                  {% endfor %}
+              </ul>
+          {% endif %}
+      </div><br>
+      <div style='color: blue'>
+      </div>
+  </body>
+<table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Job</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for person in person_list %}
+        <tr>
+            <td>{{forloop.counter0|add:page_obj.start_index }} </td>
+            <td>{{ person.name }}</td>
+            <td>{{ person.surname }}</td>
+            <td>{{ person.job }}</td>
+            <td>{{ person.address }}</td>
+            <td>{{ person.email }}</td>
+            <td>{{ person.description }}</td>
+        </tr>
+    {% endfor %}
+     <h5>{{ person_list.count }} Sonuc</h5>
+    </tbody>
+  </table>
+  
+  {% if is_paginated %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-left">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+  {% endif %}
